@@ -1,0 +1,40 @@
+# This file tells Render how to deploy the server.
+# You can use this file or set it up manually in the Render dashboard.
+
+services:
+  - type: web
+    name: chunk-bite-server
+    env: node
+    # Tell Render to look in the /server directory
+    # This is set to '.' because Render will already be in the server dir
+    # if you set the 'Root Directory' to 'server' in the dashboard.
+    # If you set Root Directory to '.', Render will look in the root,
+    # so we'll assume you set it in the dashboard.
+    
+    plan: free
+    branch: main
+    
+    # Only rebuild if files in the 'server' directory change
+    buildFilter:
+      paths:
+        - server/**
+        
+    buildCommmand: "npm install"
+    startCommand: "npm start"
+    
+    envVars:
+      - key: PORT
+        value: 10000 # Render's required port
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # Set this in Render's dashboard (it's a secret)
+      - key: JWT_SECRET
+        sync: false # Set this in Render's dashboard (it's a secret)
+      - key: CLIENT_URL
+        sync: false # Set this in Render's dashboard (e.g., https://chunk-bites.netlify.app)
+      - key: STRIPE_SECRET_KEY
+        sync: false # Set this in Render's dashboard (it's a secret)
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false # Set this in Render's dashboard (it's a secret)
+

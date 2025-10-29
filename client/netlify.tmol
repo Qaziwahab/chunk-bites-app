@@ -1,0 +1,12 @@
+[build]
+  # Tell Netlify to run the build command from the 'client' directory
+  base = "client"
+  command = "npm run build"
+  publish = "client/dist"
+
+[[redirects]]
+  # This rule is for SPAs (Single Page Applications)
+  # It redirects all paths to the index.html file
+  from = "/*"
+  to = "/index.html"
+  status = 200
